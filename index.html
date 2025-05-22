@@ -246,15 +246,19 @@
       }
     });
   </script>
-  <!DOCTYPE html>
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ChatGPT Widget</title>
+  <title>ChatGPT Assistant</title>
   <style>
-    body { margin: 0; background: #1e293b; font-family: Arial, sans-serif; color: white; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #1e293b;
+      color: white;
+    }
 
     #chatWidget {
       position: fixed;
@@ -313,9 +317,19 @@
       background: #1e293b;
     }
 
-    .chat-message { margin-bottom: 0.75rem; }
-    .chat-user { color: #facc15; font-weight: bold; }
-    .chat-ai { color: #10a37f; font-weight: bold; }
+    .chat-message {
+      margin-bottom: 0.75rem;
+    }
+
+    .chat-user {
+      color: #facc15;
+      font-weight: bold;
+    }
+
+    .chat-ai {
+      color: #10a37f;
+      font-weight: bold;
+    }
 
     #chatInputArea {
       display: flex;
@@ -413,6 +427,7 @@
       if (!response.ok) throw new Error("Server error");
       const data = await response.json();
       renderMessage("AI", data.reply);
+
     } catch (error) {
       typingDiv.remove();
       renderMessage("AI", "❌ Sorry, something went wrong. Try again later.");
@@ -421,6 +436,9 @@
   }
 
   sendBtn.onclick = askChatGPT;
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") askChatGPT();
+  });
 </script>
 </body>
 </html>
