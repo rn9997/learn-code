@@ -6,22 +6,28 @@
   <title>How to Learn Code</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(to bottom right, #111827, #1f2937);
       color: #f9fafb;
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
     header {
       background: linear-gradient(to right, #facc15, #f97316);
       color: #1f2937;
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 3rem 1rem;
+      animation: fadeInDown 1s ease-out;
     }
     header h1 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       margin: 0;
+      animation: bounce 1s infinite alternate;
     }
     header p {
       font-size: 1.2rem;
@@ -30,6 +36,7 @@
     section {
       padding: 2rem;
       border-bottom: 1px solid #374151;
+      animation: fadeIn 1.5s ease-in-out;
     }
     h2 {
       color: #facc15;
@@ -48,10 +55,6 @@
       margin-bottom: 1rem;
       border-radius: 6px;
     }
-    .coming-soon {
-      font-style: italic;
-      color: #94a3b8;
-    }
     .btn {
       display: inline-block;
       padding: 0.8rem 1.2rem;
@@ -61,10 +64,40 @@
       font-weight: bold;
       text-decoration: none;
       margin-top: 1rem;
-      transition: background 0.3s;
+      transition: all 0.3s;
     }
     .btn:hover {
       background: #fcd34d;
+      transform: scale(1.05);
+    }
+    .secret {
+      position: fixed;
+      bottom: -100px;
+      right: -100px;
+      width: 1px;
+      height: 1px;
+      background: transparent;
+      color: transparent;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #facc15;
+      color: #1f2937;
+      padding: 0.6rem 0.9rem;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      display: none;
+      z-index: 999;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    #backToTop:hover {
+      background: #fcd34d;
+      transform: translateY(-5px);
     }
     code {
       background: #374151;
@@ -88,10 +121,30 @@
       color: #facc15;
       text-decoration: underline;
     }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px); }
+      25% { transform: translate(-1px, -2px); }
+      50% { transform: translate(-3px, 0px); }
+      75% { transform: translate(3px, 2px); }
+      100% { transform: translate(1px, -1px); }
+    }
   </style>
 </head>
 <body>
-  <header>
+  <a href="#top" id="backToTop" title="Back to Top">⬆</a>
+  <header id="top">
     <h1>How to Learn Code</h1>
     <p>Learn GitHub. Explore tips. Get ready to build.</p>
   </header>
@@ -143,6 +196,34 @@
   &lt;h3&gt;Title&lt;/h3&gt;
   &lt;p&gt;This is a paragraph inside a card box.&lt;/p&gt;
 &lt;/div&gt;</code></pre>
+
+    <h3>✅ Hidden Button (Easter Egg)</h3>
+    <pre><code>&lt;button onclick="alert('🎉 You found the secret!')" style="background:transparent; color:#facc15; border:none; cursor:pointer;"&gt;
+  Invisible Secret Button
+&lt;/button&gt;</code></pre>
+  </section>
+
+  <section>
+    <h2>Mini Coding Tutorials</h2>
+    <div class="tip-box">
+      <strong>🔹 Add an Image in HTML</strong><br>
+      <pre><code>&lt;img src="image.jpg" alt="Description" width="300" /&gt;</code></pre>
+    </div>
+    <div class="tip-box">
+      <strong>🔹 Link to Another Page</strong><br>
+      <pre><code>&lt;a href="https://example.com" target="_blank"&gt;Visit Website&lt;/a&gt;</code></pre>
+    </div>
+    <div class="tip-box">
+      <strong>🔹 Create a List</strong><br>
+      <pre><code>&lt;ul&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    </div>
+    <div class="tip-box">
+      <strong>🔹 Add CSS to Style Text</strong><br>
+      <pre><code>&lt;p style="color:lightblue; font-size:20px;"&gt;Styled text&lt;/p&gt;</code></pre>
+    </div>
   </section>
 
   <section>
@@ -159,6 +240,19 @@
   <footer>
     Made with ☀️ and 💻 by Reginald. Stay coding!
   </footer>
+
+  <button class="secret" onclick="alert('🕵️ You found the ultra-hidden secret! You are officially a coding ninja.')"></button>
+
+  <script>
+    // Show back to top when scrolling
+    const backToTop = document.getElementById('backToTop');
+    window.onscroll = () => {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    };
+  </script>
 </body>
 </html>
-
