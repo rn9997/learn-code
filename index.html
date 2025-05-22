@@ -246,39 +246,51 @@
       }
     });
   </script>
-  <!-- ChatGPT-Style Widget with Logo, Typing Animation, Local Storage, and Error Handling -->
+  <!-- ChatGPT Floating Widget -->
 <style>
   #chatWidget {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 1000;
+    z-index: 9999;
     font-family: 'Poppins', sans-serif;
   }
+
   #chatToggle {
-    background-color: #10a37f;
-    color: white;
+    background: white;
     border: none;
     border-radius: 50%;
     width: 60px;
     height: 60px;
-    font-size: 30px;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
   }
+
+  #chatToggle img {
+    width: 30px;
+    height: 30px;
+  }
+
+  #chatToggle:hover {
+    transform: scale(1.1);
+  }
+
   #chatContainer {
     display: none;
     flex-direction: column;
     position: absolute;
-    bottom: 70px;
+    bottom: 80px;
     right: 0;
     background-color: #1f2937;
-    border-radius: 12px;
     width: 360px;
     max-height: 500px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
   }
+
   #chatHeader {
     display: flex;
     align-items: center;
@@ -288,10 +300,12 @@
     padding: 0.75rem 1rem;
     border-bottom: 1px solid #374151;
   }
+
   #chatHeader img {
     width: 28px;
     height: 28px;
   }
+
   #chatBox {
     flex-grow: 1;
     padding: 1rem;
@@ -300,18 +314,22 @@
     font-size: 14px;
     background: #1e293b;
   }
+
   .chat-message {
     margin-bottom: 0.75rem;
     animation: fadeIn 0.3s ease-in-out;
   }
+
   .chat-user {
     color: #facc15;
     font-weight: bold;
   }
+
   .chat-ai {
     color: #10a37f;
     font-weight: bold;
   }
+
   #chatInputArea {
     display: flex;
     padding: 0.75rem;
@@ -319,6 +337,7 @@
     border-top: 1px solid #374151;
     gap: 0.5rem;
   }
+
   #userInput {
     flex-grow: 1;
     border: none;
@@ -328,6 +347,7 @@
     background: #0f172a;
     color: white;
   }
+
   #sendBtn {
     background-color: #facc15;
     border: none;
@@ -335,11 +355,18 @@
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: background 0.2s ease;
   }
+
+  #sendBtn:hover {
+    background-color: #fcd34d;
+  }
+
   #typingIndicator {
     font-style: italic;
     color: #94a3b8;
   }
+
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -347,7 +374,9 @@
 </style>
 
 <div id="chatWidget">
-  <button id="chatToggle">💬</button>
+  <button id="chatToggle">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" alt="ChatGPT" />
+  </button>
   <div id="chatContainer">
     <div id="chatHeader">
       <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" alt="ChatGPT">
@@ -369,7 +398,7 @@
 
   toggleBtn.onclick = () => {
     chatContainer.style.display = chatContainer.style.display === "flex" ? "none" : "flex";
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight;
   };
 
   const savedMessages = JSON.parse(localStorage.getItem("chatHistory")) || [];
@@ -390,8 +419,7 @@
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-      const response = await fetch("https://chatgpt-api-mauve.vercel.app
-", {
+      const response = await fetch("https://chatgpt-api-mauve.vercel.app/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message })
@@ -407,7 +435,7 @@
 
     } catch (error) {
       typingDiv.remove();
-      renderMessage("AI", "❌ Sorry, something went wrong. Try again later.");
+      renderMessage("AI", "❌ Something went wrong. Try again later.");
       console.error("ChatGPT error:", error);
     }
   }
@@ -423,9 +451,6 @@
   function saveToLocal(role, text) {
     const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
     history.push({ role, text });
-    localStorage.setItem("chatHistory", JSON.stringify(history)); 
+    localStorage.setItem("chatHistory", JSON.stringify(history));
   }
 </script>
-
-</body>
-</html>
