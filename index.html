@@ -422,7 +422,7 @@
   function saveToLocal(role, text) {
     const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
     history.push({ role, text });
-    localStorage.setItem("chatHistory", JSON.stringify(history));
+    localStorage.setItem("chatHistory", JSON.stringify(history)); 
   }
 </script>
 
