@@ -246,125 +246,87 @@
       }
     });
   </script>
- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ChatGPT Assistant</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #1e293b;
-      color: white;
-    }
-
-    #chatWidget {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    #chatToggle {
-      background-color: #10a37f;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 30px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    #chatContainer {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      bottom: 70px;
-      right: 0;
-      background-color: #1f2937;
-      border-radius: 12px;
-      width: 360px;
-      max-height: 500px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-
-    #chatHeader {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #0f172a;
-      color: white;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #374151;
-    }
-
-    #chatHeader img {
-      width: 28px;
-      height: 28px;
-    }
-
-    #chatBox {
-      flex-grow: 1;
-      padding: 1rem;
-      overflow-y: auto;
-      color: #f9fafb;
-      font-size: 14px;
-      background: #1e293b;
-    }
-
-    .chat-message {
-      margin-bottom: 0.75rem;
-    }
-
-    .chat-user {
-      color: #facc15;
-      font-weight: bold;
-    }
-
-    .chat-ai {
-      color: #10a37f;
-      font-weight: bold;
-    }
-
-    #chatInputArea {
-      display: flex;
-      padding: 0.75rem;
-      background: #0f172a;
-      border-top: 1px solid #374151;
-      gap: 0.5rem;
-    }
-
-    #userInput {
-      flex-grow: 1;
-      border: none;
-      border-radius: 6px;
-      padding: 0.5rem;
-      font-size: 14px;
-      background: #0f172a;
-      color: white;
-    }
-
-    #sendBtn {
-      background-color: #facc15;
-      border: none;
-      padding: 0.5rem 0.8rem;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #typingIndicator {
-      font-style: italic;
-      color: #94a3b8;
-    }
-  </style>
-</head>
-<body>
+<!-- ChatGPT Floating Widget -->
+<style>
+  #chatWidget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: 'Arial', sans-serif;
+  }
+  #chatToggle {
+    background: #10a37f;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  #chatContainer {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: #1f2937;
+    width: 350px;
+    max-height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  #chatHeader {
+    display: flex;
+    align-items: center;
+    background: #0f172a;
+    color: white;
+    padding: 10px;
+    gap: 10px;
+    border-bottom: 1px solid #374151;
+  }
+  #chatHeader img {
+    width: 24px;
+    height: 24px;
+  }
+  #chatBox {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background: #1e293b;
+    color: white;
+    font-size: 14px;
+  }
+  .chat-message { margin-bottom: 10px; }
+  .chat-user { color: #facc15; font-weight: bold; }
+  .chat-ai { color: #10a37f; font-weight: bold; }
+  #chatInputArea {
+    display: flex;
+    padding: 10px;
+    background: #0f172a;
+    border-top: 1px solid #374151;
+    gap: 8px;
+  }
+  #userInput {
+    flex-grow: 1;
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+    background: #0f172a;
+    color: white;
+  }
+  #sendBtn {
+    background: #facc15;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
 
 <div id="chatWidget">
   <button id="chatToggle">💬</button>
@@ -382,63 +344,59 @@
 </div>
 
 <script>
-  const toggleBtn = document.getElementById("chatToggle");
+  const chatToggle = document.getElementById("chatToggle");
   const chatContainer = document.getElementById("chatContainer");
   const chatBox = document.getElementById("chatBox");
-  const input = document.getElementById("userInput");
+  const userInput = document.getElementById("userInput");
   const sendBtn = document.getElementById("sendBtn");
 
-  toggleBtn.onclick = () => {
+  chatToggle.onclick = () => {
     chatContainer.style.display = chatContainer.style.display === "flex" ? "none" : "flex";
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight;
   };
 
   function renderMessage(role, text) {
-    const div = document.createElement("div");
-    div.className = "chat-message";
+    const msg = document.createElement("div");
+    msg.className = "chat-message";
     const label = role === "AI" ? "chat-ai" : "chat-user";
-    div.innerHTML = `<span class="${label}">${role}:</span> ${text}`;
-    chatBox.appendChild(div);
+    msg.innerHTML = `<span class="${label}">${role}:</span> ${text}`;
+    chatBox.appendChild(msg);
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
   async function askChatGPT() {
-    const message = input.value.trim();
+    const message = userInput.value.trim();
     if (!message) return;
-
     renderMessage("You", message);
-    input.value = "";
+    userInput.value = "";
 
     const typingDiv = document.createElement("div");
-    typingDiv.id = "typingIndicator";
     typingDiv.textContent = "AI is typing...";
+    typingDiv.id = "typingIndicator";
     chatBox.appendChild(typingDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-      const response = await fetch("https://chatgpt-api.vercel.app/api/chat", {
+      const response = await fetch("https://chatgpt-api-mauve.vercel.app/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message })
       });
 
       typingDiv.remove();
-
       if (!response.ok) throw new Error("Server error");
+
       const data = await response.json();
       renderMessage("AI", data.reply);
-
-    } catch (error) {
+    } catch (err) {
       typingDiv.remove();
-      renderMessage("AI", "❌ Sorry, something went wrong. Try again later.");
-      console.error("ChatGPT error:", error);
+      renderMessage("AI", "❌ Something went wrong. Try again later.");
+      console.error(err);
     }
   }
 
   sendBtn.onclick = askChatGPT;
-  input.addEventListener("keypress", (e) => {
+  userInput.addEventListener("keypress", function (e) {
     if (e.key === "Enter") askChatGPT();
   });
 </script>
-</body>
-</html>
