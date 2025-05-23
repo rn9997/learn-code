@@ -170,6 +170,36 @@
     <h3>✅ Hidden Button (Easter Egg)</h3>
     <pre><code>&lt;button onclick="alert('🎉 You found the secret!')" style="background:transparent; color:#facc15; border:none; cursor:pointer;"&gt;Invisible Secret Button&lt;/button&gt;</code></pre>
   </section>
+  <section>
+  <h2>JavaScript Coding Examples</h2>
+  <p>Use these beginner-friendly JavaScript examples to learn how to add interactivity to your website!</p>
+
+  <h3>✅ Alert on Button Click</h3>
+  <pre><code>&lt;button onclick="alert('Hello! This is JavaScript!')"&gt;Click Me&lt;/button&gt;</code></pre>
+
+  <h3>✅ Change Text on Click</h3>
+  <pre><code>&lt;p id="demo"&gt;Original Text&lt;/p&gt;
+&lt;button onclick="document.getElementById('demo').innerText = 'Text Changed!'"&gt;Change Text&lt;/button&gt;</code></pre>
+
+  <h3>✅ Show Date and Time</h3>
+  <pre><code>&lt;button onclick="document.getElementById('time').innerText = new Date()"&gt;Show Time&lt;/button&gt;
+&lt;p id="time"&gt;&lt;/p&gt;</code></pre>
+
+  <h3>✅ Simple Calculator (Add 2 Numbers)</h3>
+  <pre><code>&lt;input type="number" id="n1"&gt; + 
+&lt;input type="number" id="n2"&gt; 
+&lt;button onclick="addNums()"&gt;Add&lt;/button&gt;
+&lt;p id="result"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+function addNums() {
+  const a = parseFloat(document.getElementById('n1').value);
+  const b = parseFloat(document.getElementById('n2').value);
+  document.getElementById('result').innerText = a + b;
+}
+&lt;/script&gt;</code></pre>
+</section>
+
 
   <section>
     <h2>Mini Coding Tutorials</h2>
