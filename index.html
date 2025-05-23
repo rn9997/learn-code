@@ -204,6 +204,60 @@
       <iframe id="previewFrame" style="width: 100%; height: 300px; border: 2px solid #facc15; border-radius: 8px; background: white;"></iframe>
     </div>
   </section>
+  <section>
+  <h2>🧪 Website Coding Quiz</h2>
+  <form id="siteQuizForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+    <!-- User Info -->
+    <div class="tip-box">
+      <label><strong>👤 Name:</strong><br>
+        <input type="text" id="quizName" required placeholder="Enter your name" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: none; background: #0f172a; color: #f9fafb;">
+      </label><br><br>
+      <label><strong>🏷️ Class:</strong><br>
+        <input type="text" id="quizClass" required placeholder="e.g. 7A, 8B" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: none; background: #0f172a; color: #f9fafb;">
+      </label>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="tip-box">
+      <p><strong>1. What can GitHub Pages be used for?</strong></p>
+      <label><input type="radio" name="q1" value="a"> Writing Java programs</label><br>
+      <label><input type="radio" name="q1" value="b"> Hosting HTML websites for free</label><br>
+      <label><input type="radio" name="q1" value="c"> Playing games</label>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="tip-box">
+      <p><strong>2. What does this HTML comment look like?</strong></p>
+      <label><input type="radio" name="q2" value="a">&lt;!-- This is a comment --&gt;</label><br>
+      <label><input type="radio" name="q2" value="b">// This is a comment</label><br>
+      <label><input type="radio" name="q2" value="c"># This is a comment</label>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="tip-box">
+      <p><strong>3. What kind of code does the "Cool Button" snippet use?</strong></p>
+      <label><input type="radio" name="q3" value="a"> JavaScript only</label><br>
+      <label><input type="radio" name="q3" value="b"> HTML with CSS classes</label><br>
+      <label><input type="radio" name="q3" value="c"> Python</label>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="tip-box">
+      <p><strong>4. What does the <code>&lt;img&gt;</code> tag do?</strong></p>
+      <label><input type="radio" name="q4" value="a"> Displays an image</label><br>
+      <label><input type="radio" name="q4" value="b"> Adds a button</label><br>
+      <label><input type="radio" name="q4" value="c"> Adds a list</label>
+    </div>
+
+    <button type="button" class="btn" onclick="checkSiteQuiz()">Check Answers</button>
+    <p id="siteQuizResult" style="font-weight: bold; margin-top: 1rem;"></p>
+
+    <button type="button" class="btn" onclick="showSavedQuiz()">📦 View Previous Result</button>
+    <p id="savedQuizDisplay" style="margin-top: 1rem;"></p>
+  </form>
+</section>
+
 
   <footer>
     Made with ☀️ and 💻 by Reginald. Stay coding!
@@ -246,6 +300,77 @@
       }
     });
   </script>
+  <script>
+  function checkSiteQuiz() {
+    const correctAnswers = {
+      q1: "b",
+      q2: "a",
+      q3: "b",
+      q4: "a"
+    };
+
+    const name = document.getElementById("quizName").value.trim();
+    const studentClass = document.getElementById("quizClass").value.trim();
+
+    if (!name || !studentClass) {
+      alert("Please enter your name and class.");
+      return;
+    }
+
+    let userAnswers = {};
+    let score = 0;
+    let total = Object.keys(correctAnswers).length;
+    let feedback = "";
+
+    for (let key in correctAnswers) {
+      const selected = document.querySelector(`input[name="${key}"]:checked`);
+      if (selected) {
+        userAnswers[key] = selected.value;
+        if (selected.value === correctAnswers[key]) {
+          score++;
+        } else {
+          feedback += `❌ Q${key.slice(1)}: You chose "${selected.value.toUpperCase()}", correct is "${correctAnswers[key].toUpperCase()}".<br>`;
+        }
+      } else {
+        userAnswers[key] = "none";
+        feedback += `⚠️ Q${key.slice(1)}: No answer selected.<br>`;
+      }
+    }
+
+    const resultText = `🧾 Name: ${name}<br>🏷️ Class: ${studentClass}<br>✅ Score: <strong>${score}/${total}</strong><br><br>${feedback}`;
+    document.getElementById("siteQuizResult").innerHTML = resultText;
+
+    const saveData = {
+      name,
+      class: studentClass,
+      score: `${score}/${total}`,
+      answers: userAnswers
+    };
+    localStorage.setItem("savedQuiz", JSON.stringify(saveData));
+  }
+
+  function showSavedQuiz() {
+    const saved = JSON.parse(localStorage.getItem("savedQuiz"));
+
+    if (!saved) {
+      document.getElementById("savedQuizDisplay").innerHTML = "❌ No saved result found.";
+      return;
+    }
+
+    let answerList = "";
+    for (let q in saved.answers) {
+      answerList += `Q${q.slice(1)}: ${saved.answers[q].toUpperCase()}<br>`;
+    }
+
+    document.getElementById("savedQuizDisplay").innerHTML = `
+      🧾 Name: ${saved.name}<br>
+      🏷️ Class: ${saved.class}<br>
+      ✅ Score: <strong>${saved.score}</strong><br><br>
+      📄 Answers:<br>${answerList}
+    `;
+  }
+</script>
+
 <script>
 
 
