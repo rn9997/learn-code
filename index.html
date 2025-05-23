@@ -340,41 +340,29 @@
     const resultText = `🧾 Name: ${name}<br>🏷️ Class: ${studentClass}<br>✅ Score: <strong>${score}/${total}</strong><br><br>${feedback}`;
     document.getElementById("siteQuizResult").innerHTML = resultText;
 
-    const saveData = {
-      name,
-      class: studentClass,
-      score: `${score}/${total}`,
-      answers: userAnswers
-    };
-    localStorage.setItem("savedQuiz", JSON.stringify(saveData));
-  }
-
-  function showSavedQuiz() {
-    const saved = JSON.parse(localStorage.getItem("savedQuiz"));
-
-    if (!saved) {
-      document.getElementById("savedQuizDisplay").innerHTML = "❌ No saved result found.";
-      return;
-    }
-
-    let answerList = "";
-    for (let q in saved.answers) {
-      answerList += `Q${q.slice(1)}: ${saved.answers[q].toUpperCase()}<br>`;
-    }
-
-    document.getElementById("savedQuizDisplay").innerHTML = `
-      🧾 Name: ${saved.name}<br>
-      🏷️ Class: ${saved.class}<br>
-      ✅ Score: <strong>${saved.score}</strong><br><br>
-      📄 Answers:<br>${answerList}
-    `;
+    // 🔗 Send to Google Sheet via Apps Script Web App
+    fetch("https://script.google.com/macros/s/AKfycbw9_jlfl1dUEQK64SHZI2GUdyrpTS9u-xFjMazf_1q6eQLBlGzx9BJt5PoGPOjNOs-BTQ/exec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        class: studentClass,
+        score: `${score}/${total}`,
+        answers: userAnswers
+      })
+    })
+    .then(res => res.text())
+    .then(data => {
+      console.log("Submitted to Google Sheet:", data);
+      alert("✅ Your quiz has been submitted!");
+    })
+    .catch(err => {
+      console.error("Submit error:", err);
+      alert("❌ Error submitting quiz. Please try again.");
+    });
   }
 </script>
 
-<script>
-
-
-
-
-     
-     
+ 
