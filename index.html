@@ -300,51 +300,53 @@ function addNums() {
   </footer>
 
   <button class="secret" onclick="alert('🕵️ You found the ultra-hidden secret! You are officially a coding ninja.')"></button>
+<script>
+  const backToTop = document.getElementById('backToTop');
+  const codeInput = document.getElementById('codeInput');
+  const previewFrame = document.getElementById('previewFrame');
 
-  <script>
-    const backToTop = document.getElementById('backToTop');
-    window.onscroll = () => {
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        backToTop.style.display = "block";
-      } else {
-        backToTop.style.display = "none";
-      }
-    };
+  window.addEventListener('scroll', () => {
+    backToTop.style.display = window.scrollY > 200 ? "block" : "none";
+  });
 
-    function getFeedback() {
-      const feedback = prompt("What do you think about this site?");
-      if (feedback) {
-        console.log("User Feedback:", feedback);
-        alert("Thank you for your feedback!");
-      }
+  window.addEventListener('load', () => {
+    const savedCode = localStorage.getItem("savedUserCode");
+    if (savedCode) {
+      codeInput.value = savedCode;
+      previewFrame.srcdoc = savedCode;
     }
+  });
 
-    const codeInput = document.getElementById('codeInput');
-    const previewFrame = document.getElementById('previewFrame');
+  codeInput.addEventListener('input', () => {
+    const userCode = codeInput.value;
+    previewFrame.srcdoc = userCode;
+    localStorage.setItem("savedUserCode", userCode);
+  });
 
-    codeInput.addEventListener('input', () => {
-      const userCode = codeInput.value;
-      previewFrame.srcdoc = userCode;
-      localStorage.setItem("userCode", userCode);
-    });
+  function saveCode() {
+    localStorage.setItem("savedUserCode", codeInput.value);
+    alert("✅ Your code has been saved!");
+  }
 
-    window.addEventListener('load', () => {
-      const savedCode = localStorage.getItem("userCode");
-      if (savedCode) {
-        codeInput.value = savedCode;
-        previewFrame.srcdoc = savedCode;
-      }
-    });
-  </script>
-  <script>
+  function clearCode() {
+    if (confirm("Are you sure you want to clear your saved code?")) {
+      localStorage.removeItem("savedUserCode");
+      codeInput.value = "";
+      previewFrame.srcdoc = "";
+      alert("🧹 Code cleared!");
+    }
+  }
+
+  function getFeedback() {
+    const feedback = prompt("What do you think about this site?");
+    if (feedback) {
+      console.log("User Feedback:", feedback);
+      alert("Thank you for your feedback!");
+    }
+  }
+
   function checkSiteQuiz() {
-    const correctAnswers = {
-      q1: "b",
-      q2: "a",
-      q3: "b",
-      q4: "a"
-    };
-
+    const correctAnswers = { q1: "b", q2: "a", q3: "b", q4: "a" };
     const name = document.getElementById("quizName").value.trim();
     const studentClass = document.getElementById("quizClass").value.trim();
 
@@ -353,10 +355,7 @@ function addNums() {
       return;
     }
 
-    let userAnswers = {};
-    let score = 0;
-    let total = Object.keys(correctAnswers).length;
-    let feedback = "";
+    let userAnswers = {}, score = 0, feedback = "";
 
     for (let key in correctAnswers) {
       const selected = document.querySelector(`input[name="${key}"]:checked`);
@@ -373,19 +372,16 @@ function addNums() {
       }
     }
 
-    const resultText = `🧾 Name: ${name}<br>🏷️ Class: ${studentClass}<br>✅ Score: <strong>${score}/${total}</strong><br><br>${feedback}`;
+    const resultText = `🧾 Name: ${name}<br>🏷️ Class: ${studentClass}<br>✅ Score: <strong>${score}/4</strong><br><br>${feedback}`;
     document.getElementById("siteQuizResult").innerHTML = resultText;
 
-    // 🔗 Send to Google Sheet via Apps Script Web App
     fetch("https://script.google.com/macros/s/AKfycbw9_jlfl1dUEQK64SHZI2GUdyrpTS9u-xFjMazf_1q6eQLBlGzx9BJt5PoGPOjNOs-BTQ/exec", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: name,
         class: studentClass,
-        score: `${score}/${total}`,
+        score: `${score}/4`,
         answers: userAnswers
       })
     })
@@ -399,36 +395,11 @@ function addNums() {
       alert("❌ Error submitting quiz. Please try again.");
     });
   }
-  const codeInput = document.getElementById("codeInput");
 
-// Load saved code from localStorage
-window.addEventListener("load", () => {
-  const savedCode = localStorage.getItem("savedUserCode");
-  if (savedCode) {
-    codeInput.value = savedCode;
-    document.getElementById("previewFrame").srcdoc = savedCode;
+  // OPTIONAL: Add this if you're keeping the button for viewing previous result
+  function showSavedQuiz() {
+    const saved = localStorage.getItem("savedUserCode");
+    document.getElementById("savedQuizDisplay").innerText = saved
+      ? "✅ You have saved code." : "❌ No saved code found.";
   }
-});
-
-// Save the code
-function saveCode() {
-  localStorage.setItem("savedUserCode", codeInput.value);
-  alert("✅ Your code has been saved!");
-}
-
-// Clear the saved code
-function clearCode() {
-  if (confirm("Are you sure you want to clear your saved code?")) {
-    localStorage.removeItem("savedUserCode");
-    alert("🧹 Code cleared!");
-  }
-}
-
-// Live preview
-codeInput.addEventListener("input", () => {
-  document.getElementById("previewFrame").srcdoc = codeInput.value;
-});
-
 </script>
-
- 
