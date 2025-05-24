@@ -141,27 +141,52 @@
     <h1>How to Learn Code</h1>
     <h5>Made on 22/5/25</h5>
     <p>Learn GitHub. Explore tips. Get ready to build.</p>
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Create Class</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create a New Class</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h2>🎓 Create New Class</h2>
-    <input type="email" id="teacherEmail" placeholder="Email">
-    <input type="text" id="classTitle" placeholder="Class Title">
-    <textarea id="assignment" placeholder="Assignment Instructions"></textarea>
+    <h1>📚 Class Creator Tool</h1>
+    <p style="margin-bottom: 1.5rem;">Use this form to create a class with assignment details, a due date, and a unique class code.</p>
+
+    <!-- Email Input -->
+    <label for="teacherEmail">👤 Teacher Email:</label>
+    <input type="email" id="teacherEmail" placeholder="e.g. teacher@example.com" required />
+
+    <!-- Class Title -->
+    <label for="classTitle">🏷️ Class Title:</label>
+    <input type="text" id="classTitle" placeholder="e.g. Year 7 History" required />
+
+    <!-- Assignment Instructions -->
+    <label for="assignment">📝 Assignment Instructions:</label>
+    <textarea id="assignment" rows="4" placeholder="Describe the task..."></textarea>
+
+    <!-- Due Date -->
+    <label for="dueDate">📅 Due Date:</label>
+    <input type="date" id="dueDate" />
+
+    <!-- Live Code Preview -->
+    <p id="previewCode" style="margin-top: 1rem;">🔑 Class Code: <em>Will auto-generate</em></p>
+
+    <!-- Submit Button -->
     <button onclick="saveClass()">✅ Create Class</button>
-    <p id="result"></p>
-    <br>
-    <a href="classes.html">🔍 View All Classes</a>
+    <p id="result" style="margin-top: 1rem;"></p>
+
+    <hr style="margin: 2rem 0; border: 1px solid #374151;" />
+
+    <!-- View All Classes Link -->
+    <a href="classes.html">📋 View All Classes</a>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
   </header>
