@@ -1,4 +1,6 @@
-/* ==== Global Styles ==== */
+/* ============================
+   Global Styles
+============================ */
 body {
   margin: 0;
   padding: 0;
@@ -7,13 +9,15 @@ body {
   color: #1f2937;
 }
 
-/* ==== Header Banner Layout ==== */
+/* ============================
+   Header Banner
+============================ */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #facc15; /* yellow */
-  color: #1f2937; /* dark navy */
+  background-color: #facc15;
+  color: #1f2937;
   padding: 2rem;
   flex-wrap: wrap;
   gap: 2rem;
@@ -59,6 +63,7 @@ header {
     align-items: center;
     text-align: center;
   }
+
   .vertical-left,
   .vertical-right {
     writing-mode: horizontal-tb;
@@ -67,7 +72,9 @@ header {
   }
 }
 
-/* ==== Sidebar (Class Creator) ==== */
+/* ============================
+   Sidebar (Class Creator)
+============================ */
 aside#sidebar {
   position: fixed;
   top: 0;
@@ -123,13 +130,15 @@ aside#sidebar button {
   display: none;
 }
 
-/* ==== Class List ==== */
+/* ============================
+   Class List / Cards
+============================ */
 #classList {
   padding: 2rem;
 }
 
 .tip-box {
-  background: #1e293b;
+  background-color: #1e293b;
   padding: 1rem;
   border-left: 5px solid #facc15;
   margin-bottom: 1rem;
@@ -137,7 +146,9 @@ aside#sidebar button {
   color: #f9fafb;
 }
 
-/* ==== Inputs ==== */
+/* ============================
+   Inputs & Form Elements
+============================ */
 input[type="text"],
 input[type="email"],
 input[type="date"],
@@ -145,7 +156,7 @@ textarea {
   width: 100%;
   padding: 0.8rem;
   margin: 0.5rem 0;
-  background: #1e293b;
+  background-color: #1e293b;
   color: #facc15;
   border: none;
   border-radius: 6px;
@@ -165,4 +176,3 @@ button {
 button:hover {
   background-color: #fcd34d;
 }
-
