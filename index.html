@@ -141,24 +141,28 @@
     <h1>How to Learn Code</h1>
     <h5>Made on 22/5/25</h5>
     <p>Learn GitHub. Explore tips. Get ready to build.</p>
-    <section>
-  <h2>🎓 Teacher: Create a New Class</h2>
-  <button class="btn" onclick="toggleClassForm()">+ New Class</button>
-
-  <div id="classForm" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: #0f172a; border: 2px solid #facc15; border-radius: 10px;">
-    <label><strong>Email:</strong></label><br>
-    <input type="email" id="teacherEmail" placeholder="your@email.com" style="width:100%; margin: 0.5rem 0 1rem; padding: 0.5rem; border-radius: 6px; border: none; background: #1e293b; color: #facc15;"><br>
-
-    <label><strong>Class Title:</strong></label><br>
-    <input type="text" id="classTitle" placeholder="e.g. 7A Science" style="width:100%; margin: 0.5rem 0 1rem; padding: 0.5rem; border-radius: 6px; border: none; background: #1e293b; color: #facc15;"><br>
-
-    <label><strong>Assignment Instructions:</strong></label><br>
-    <textarea id="assignment" placeholder="Homework details..." style="width:100%; height: 100px; margin: 0.5rem 0 1rem; padding: 0.5rem; border-radius: 6px; border: none; background: #1e293b; color: #facc15;"></textarea><br>
-
-    <button class="btn" onclick="submitClass()">✅ Create Class</button>
-    <p id="classCodeResult" style="margin-top: 1rem; font-weight: bold;"></p>
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Class</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>🎓 Create New Class</h2>
+    <input type="email" id="teacherEmail" placeholder="Email">
+    <input type="text" id="classTitle" placeholder="Class Title">
+    <textarea id="assignment" placeholder="Assignment Instructions"></textarea>
+    <button onclick="saveClass()">✅ Create Class</button>
+    <p id="result"></p>
+    <br>
+    <a href="classes.html">🔍 View All Classes</a>
   </div>
-</section>
+  <script src="script.js"></script>
+</body>
+</html>
+
 
   </header>
 
