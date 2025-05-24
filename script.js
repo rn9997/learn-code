@@ -9,7 +9,7 @@ function submitClass() {
     return;
   }
 
-  fetch("https://script.google.com/macros/s/AKfycbxfhc6O8WPnRJP6WKqq0Mzj10TAVtfIWsEaoa4P52lvXiZJfNXlhkbAG0yimapAxuEN/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxId4oara42ZJQUW2USw4Oee1NC55dlo7iqEq3ygH5mmFxvCG7PdvmKHlUbE1xUxUTB/exec", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, title, assignment })
