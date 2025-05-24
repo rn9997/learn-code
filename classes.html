@@ -3,21 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All Classes</title>
+  <title>Joined Classes</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>📋 All Created Classes</h1>
-    <p>View every class you've added using the Class Creator tool.</p>
+  <header>
+    <h1>📋 My Joined Classes</h1>
+    <a href="index.html">⬅ Back to Home</a>
+  </header>
 
-    <div id="classList" style="margin-top: 2rem;"></div>
+  <main>
+    <div id="joinedClasses"></div>
+  </main>
 
-    <hr style="margin: 2rem 0; border: 1px solid #374151;" />
+  <script>
+    const joined = JSON.parse(localStorage.getItem('joinedClasses')) || [];
+    const container = document.getElementById('joinedClasses');
 
-    <a href="index.html">⬅️ Back to Create Class</a>
-  </div>
-
-  <script src="script.js"></script>
+    if (joined.length === 0) {
+      container.innerHTML = '<p style="margin-top:1rem;">❌ No classes joined yet.</p>';
+    } else {
+      container.innerHTML = joined.map(cls => `
+        <div class="class-box">
+          <h2>${cls.title}</h2>
+          <p><strong>Teacher:</strong> ${cls.teacher}</p>
+          <p><strong>Class Code:</strong> ${cls.code}</p>
+        </div>
+      `).join('');
+    }
+  </script>
 </body>
 </html>
