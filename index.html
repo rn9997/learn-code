@@ -141,49 +141,62 @@
     <h1>How to Learn Code</h1>
     <h5>Made on 22/5/25</h5>
     <p>Learn GitHub. Explore tips. Get ready to build.</p>
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create a New Class</title>
+  <title>Class Manager</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>📚 Class Creator Tool</h1>
-    <p style="margin-bottom: 1.5rem;">Use this form to create a class with assignment details, a due date, and a unique class code.</p>
+  <header>
+    <h1>📚 Class Manager</h1>
+    <button id="toggleSidebar">➕ Class Options</button>
+  </header>
 
-    <!-- Email Input -->
-    <label for="teacherEmail">👤 Teacher Email:</label>
-    <input type="email" id="teacherEmail" placeholder="e.g. teacher@example.com" required />
+  <aside id="sidebar" class="hidden">
+    <button id="closeSidebar">❌</button>
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="showTab('create')">Create Class</button>
+      <button class="tab-btn" onclick="showTab('join')">Join Class</button>
+    </div>
 
-    <!-- Class Title -->
-    <label for="classTitle">🏷️ Class Title:</label>
-    <input type="text" id="classTitle" placeholder="e.g. Year 7 History" required />
+    <div id="create" class="tab-content">
+      <h2>Create a Class</h2>
+      <input type="text" id="teacherName" placeholder="Teacher Name" />
+      <input type="text" id="classTitle" placeholder="Class Title" />
+      <button onclick="createClass()">Create Class</button>
+      <p id="createResult"></p>
+    </div>
 
-    <!-- Assignment Instructions -->
-    <label for="assignment">📝 Assignment Instructions:</label>
-    <textarea id="assignment" rows="4" placeholder="Describe the task..."></textarea>
+    <div id="join" class="tab-content hidden">
+      <h2>Join a Class</h2>
+      <input type="text" id="studentName" placeholder="Student Name" />
+      <input type="text" id="classCode" placeholder="Class Code" />
+      <button onclick="joinClass()">Join Class</button>
+      <p id="joinResult"></p>
+    </div>
+  </aside>
 
-    <!-- Due Date -->
-    <label for="dueDate">📅 Due Date:</label>
-    <input type="date" id="dueDate" />
+  <main>
+    <h2>Your Classes</h2>
+    <div id="classList"></div>
 
-    <!-- Live Code Preview -->
-    <p id="previewCode" style="margin-top: 1rem;">🔑 Class Code: <em>Will auto-generate</em></p>
-
-    <!-- Submit Button -->
-    <button onclick="saveClass()">✅ Create Class</button>
-    <p id="result" style="margin-top: 1rem;"></p>
-
-    <hr style="margin: 2rem 0; border: 1px solid #374151;" />
-
-    <!-- View All Classes Link -->
-    <a href="classes.html">📋 View All Classes</a>
-  </div>
+    <section id="assignmentsSection" class="hidden">
+      <h3>📑 Assignments for: <span id="selectedClassTitle"></span></h3>
+      <input type="text" id="assignmentTitle" placeholder="Assignment Title" />
+      <input type="date" id="assignmentDue" />
+      <button onclick="addAssignment()">➕ Add Assignment</button>
+      <div id="assignmentList"></div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
+</body>
+</html>
+
+
 </body>
 </html>
 
