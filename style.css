@@ -20,12 +20,14 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 2rem 1rem;
+  overflow-x: hidden;
 }
 
 /* === HEADER === */
 header {
-  text-align: center;
   width: 100%;
+  text-align: left;
+  max-width: 900px;
   margin-bottom: 2rem;
 }
 
@@ -34,6 +36,7 @@ header h1 {
   font-weight: 700;
   color: #000;
   margin-bottom: 0.5rem;
+  text-align: left;
 }
 
 /* === BUTTON GROUP === */
@@ -56,6 +59,7 @@ header h1 {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: center;
 }
 
 .actions button:hover {
@@ -86,6 +90,7 @@ header h1 {
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   position: relative;
+  text-align: left;
 }
 
 /* === CLOSE BUTTON === */
@@ -105,6 +110,7 @@ header h1 {
   font-size: 1.75rem;
   margin-bottom: 1rem;
   color: #1a73e8;
+  text-align: left;
 }
 
 .menu input {
@@ -127,6 +133,7 @@ header h1 {
   border-radius: 8px;
   margin-bottom: 1rem;
   cursor: pointer;
+  text-align: center;
 }
 
 .menu button:hover {
@@ -139,18 +146,21 @@ header h1 {
   flex-wrap: wrap;
   gap: 1.25rem;
   margin-top: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
+  max-width: 900px;
+  width: 100%;
 }
 
 .class-card {
   background-color: white;
   padding: 1rem;
   border-radius: 12px;
-  width: 100%;
+  flex: 1 1 220px;
   max-width: 250px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease;
   cursor: pointer;
+  text-align: left;
 }
 
 .class-card:hover {
@@ -193,5 +203,8 @@ header h1 {
   .panel {
     padding: 1.5rem 1rem;
   }
-}
 
+  .class-grid {
+    justify-content: center;
+  }
+}
