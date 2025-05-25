@@ -1,111 +1,122 @@
-// === Get Elements ===
-const teacherBtn = document.getElementById("teacherBtn");
-const studentBtn = document.getElementById("studentBtn");
+document.getElementById('toggleSidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('hidden');
+});
 
-const teacherPanel = document.getElementById("teacherPanel");
-const studentPanel = document.getElementById("studentPanel");
-const assignmentPanel = document.getElementById("assignmentPanel");
+document.getElementById('closeSidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.add('hidden');
+});
 
-const teacherClassList = document.getElementById("teacherClassList");
-const studentClassList = document.getElementById("studentClassList");
-
-const closeBtns = document.querySelectorAll(".close-btn");
-
-let currentClassTitle = "";
-
-// === Panel Logic ===
-function showPanel(panel) {
-  hideAllPanels();
-  panel.classList.add("active");
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+  document.getElementById(tabId).classList.remove('hidden');
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
 }
 
-function hideAllPanels() {
-  [teacherPanel, studentPanel, assignmentPanel].forEach(p => p.classList.remove("active"));
+function generateClassCode() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 }
 
-teacherBtn.addEventListener("click", () => showPanel(teacherPanel));
-studentBtn.addEventListener("click", () => showPanel(studentPanel));
-closeBtns.forEach(btn => btn.addEventListener("click", hideAllPanels));
-
-// === Create Class ===
 function createClass() {
-  const name = document.getElementById("teacherName").value.trim();
-  const title = document.getElementById("classTitle").value.trim();
-  const msg = document.getElementById("createClassMsg");
+  const teacher = document.getElementById('teacherName').value.trim();
+  const title = document.getElementById('classTitle').value.trim();
+  const code = generateClassCode();
 
-  if (!name || !title) {
-    msg.textContent = "Please fill in all fields.";
+  if (!teacher || !title) {
+    document.getElementById('createResult').innerText = 'Please fill all fields.';
     return;
   }
 
-  const code = generateCode();
-
-  const div = document.createElement("div");
-  div.className = "class-card";
-  div.innerHTML = `
-    <img class="profile-img" src="https://api.dicebear.com/7.x/initials/svg?seed=${name}" alt="avatar" />
-    <h4>${title}</h4>
-    <p>By ${name}</p>
-    <p><strong>Code:</strong> ${code}</p>
-  `;
-  div.addEventListener("click", () => openAssignmentPanel(title));
-
-  teacherClassList.appendChild(div);
-  msg.textContent = "✅ Class created!";
-  document.getElementById("teacherName").value = "";
-  document.getElementById("classTitle").value = "";
+  const newClass = { teacher, title, code, assignments: [] };
+  const stored = JSON.parse(localStorage.getItem('createdClasses')) || [];
+  stored.push(newClass);
+  localStorage.setItem('createdClasses', JSON.stringify(stored));
+  document.getElementById('createResult').innerText = `✅ Class Created! Code: ${code}`;
+  loadClasses();
 }
 
-// === Join Class ===
 function joinClass() {
-  const student = document.getElementById("studentName").value.trim();
-  const code = document.getElementById("classCodeInput").value.trim();
-  const msg = document.getElementById("joinClassMsg");
+  const name = document.getElementById('studentName').value.trim();
+  const code = document.getElementById('classCode').value.trim().toUpperCase();
+  const classes = JSON.parse(localStorage.getItem('createdClasses')) || [];
+  const match = classes.find(c => c.code === code);
 
-  if (!student || !code) {
-    msg.textContent = "Please enter name and class code.";
+  if (!name || !code) {
+    document.getElementById('joinResult').innerText = 'Please fill all fields.';
     return;
   }
 
-  const div = document.createElement("div");
-  div.className = "class-card";
-  div.innerHTML = `
-    <img class="profile-img" src="https://api.dicebear.com/7.x/initials/svg?seed=${student}" alt="avatar" />
-    <h4>Class Joined</h4>
-    <p>${student}</p>
-    <p><strong>Code:</strong> ${code}</p>
-  `;
-  div.addEventListener("click", () => openAssignmentPanel("Joined Class"));
+  if (!match) {
+    document.getElementById('joinResult').innerText = '❌ Class not found.';
+    return;
+  }
 
-  studentClassList.appendChild(div);
-  msg.textContent = "✅ Joined class!";
-  document.getElementById("studentName").value = "";
-  document.getElementById("classCodeInput").value = "";
+  let joined = JSON.parse(localStorage.getItem('joinedClasses')) || [];
+  if (!joined.some(c => c.code === code)) {
+    joined.push(match);
+    localStorage.setItem('joinedClasses', JSON.stringify(joined));
+  }
+
+  document.getElementById('joinResult').innerText = `✅ Joined ${match.title}`;
 }
 
-// === Assignment ===
-function openAssignmentPanel(title) {
-  document.getElementById("activeClassTitle").textContent = title;
-  showPanel(assignmentPanel);
-  currentClassTitle = title;
-  document.getElementById("assignmentList").innerHTML = "";
+function loadClasses() {
+  const container = document.getElementById('classList');
+  const classes = JSON.parse(localStorage.getItem('createdClasses')) || [];
+  container.innerHTML = '';
+
+  classes.forEach(cls => {
+    const div = document.createElement('div');
+    div.className = 'class-box';
+    div.innerHTML = `
+      <h3>${cls.title}</h3>
+      <p><strong>Code:</strong> ${cls.code}</p>
+      <p><strong>Teacher:</strong> ${cls.teacher}</p>
+      <button onclick="selectClass('${cls.code}')">📑 Manage Assignments</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+let selectedCode = null;
+
+function selectClass(code) {
+  const classes = JSON.parse(localStorage.getItem('createdClasses')) || [];
+  const cls = classes.find(c => c.code === code);
+  if (!cls) return;
+
+  selectedCode = code;
+  document.getElementById('assignmentsSection').classList.remove('hidden');
+  document.getElementById('selectedClassTitle').innerText = cls.title;
+  renderAssignments(cls.assignments);
 }
 
 function addAssignment() {
-  const title = document.getElementById("assignmentTitle").value.trim();
-  const due = document.getElementById("assignmentDue").value;
-
+  const title = document.getElementById('assignmentTitle').value.trim();
+  const due = document.getElementById('assignmentDue').value;
   if (!title || !due) return;
 
-  const div = document.createElement("div");
-  div.innerHTML = `<p>📌 <strong>${title}</strong> — Due: ${due}</p>`;
-  document.getElementById("assignmentList").appendChild(div);
+  let classes = JSON.parse(localStorage.getItem('createdClasses')) || [];
+  const index = classes.findIndex(c => c.code === selectedCode);
+  if (index === -1) return;
 
-  document.getElementById("assignmentTitle").value = "";
-  document.getElementById("assignmentDue").value = "";
+  classes[index].assignments.push({ title, due });
+  localStorage.setItem('createdClasses', JSON.stringify(classes));
+  renderAssignments(classes[index].assignments);
+
+  document.getElementById('assignmentTitle').value = '';
+  document.getElementById('assignmentDue').value = '';
 }
 
-// === Generate Unique Class Code ===
-function generateCode() {
-  return Math.random().toString(36).substr(2, 6).toUpperCase();
+function renderAssignments(assignments) {
+  const list = document.getElementById('assignmentList');
+  list.innerHTML = assignments.map(a => `
+    <div class="assignment-box">
+      <strong>${a.title}</strong><br/>
+      Due: ${a.due}
+    </div>
+  `).join('');
 }
+
+window.onload = loadClasses;
