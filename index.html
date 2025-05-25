@@ -141,56 +141,72 @@
     <h1>How to Learn Code</h1>
     <h5>Made on 22/5/25</h5>
     <p>Learn GitHub. Explore tips. Get ready to build.</p>
-    <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class Manager</title>
+  <title>Classroom App</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
   <header>
-    <h3>📚 Class Manager</h3>
-    <button id="toggleSidebar">➕ Class Options</button>
+    <h3>📚 Welcome to Classroom</h3>
+    <div class="actions">
+      <button id="teacherBtn">I'm a Teacher</button>
+      <button id="studentBtn">I'm a Student</button>
+    </div>
   </header>
 
-  <aside id="sidebar" class="hidden">
-    <button id="closeSidebar">❌</button>
-    <div class="tab-buttons">
-      <button class="tab-btn active" onclick="showTab('create')">Create Class</button>
-      <button class="tab-btn" onclick="showTab('join')">Join Class</button>
-    </div>
-
-    <div id="create" class="tab-content">
-      <h2>Create a Class</h2>
-      <input type="text" id="teacherName" placeholder="Teacher Name" />
-      <input type="text" id="classTitle" placeholder="Class Title" />
-      <button onclick="createClass()">Create Class</button>
-      <p id="createResult"></p>
-    </div>
-
-    <div id="join" class="tab-content hidden">
-      <h2>Join a Class</h2>
-      <input type="text" id="studentName" placeholder="Student Name" />
-      <input type="text" id="classCode" placeholder="Class Code" />
-      <button onclick="joinClass()">Join Class</button>
-      <p id="joinResult"></p>
-    </div>
-  </aside>
-
   <main>
-    <h2>Your Classes</h2>
-    <div id="classList"></div>
+    <!-- Teacher Panel -->
+    <section id="teacherPanel" class="panel">
+      <div class="menu">
+        <button class="close-btn">❌</button>
+        <h2>Create a Class</h2>
+        <input type="text" id="teacherName" placeholder="Your Name" />
+        <input type="text" id="classTitle" placeholder="Class Title" />
+        <button onclick="createClass()">➕ Create Class</button>
+        <p id="createClassMsg"></p>
+        <h3>Your Classes</h3>
+        <div id="teacherClassList" class="class-grid"></div>
+      </div>
+    </section>
 
-    <section id="assignmentsSection" class="hidden">
-      <h3>📑 Assignments for: <span id="selectedClassTitle"></span></h3>
-      <input type="text" id="assignmentTitle" placeholder="Assignment Title" />
-      <input type="date" id="assignmentDue" />
-      <button onclick="addAssignment()">➕ Add Assignment</button>
-      <div id="assignmentList"></div>
+    <!-- Student Panel -->
+    <section id="studentPanel" class="panel">
+      <div class="menu">
+        <button class="close-btn">❌</button>
+        <h2>Join a Class</h2>
+        <input type="text" id="studentName" placeholder="Your Name" />
+        <input type="text" id="classCodeInput" placeholder="Class Code" />
+        <button onclick="joinClass()">🔑 Join</button>
+        <p id="joinClassMsg"></p>
+        <h3>My Classes</h3>
+        <div id="studentClassList" class="class-grid"></div>
+      </div>
+    </section>
+
+    <!-- Assignment Panel -->
+    <section id="assignmentPanel" class="panel">
+      <div class="menu">
+        <button class="close-btn">❌</button>
+        <h2>Assignments for <span id="activeClassTitle"></span></h2>
+        <input type="text" id="assignmentTitle" placeholder="Assignment Title" />
+        <input type="date" id="assignmentDue" />
+        <button onclick="addAssignment()">📌 Add Assignment</button>
+        <div id="assignmentList"></div>
+      </div>
     </section>
   </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+   
 
   <script src="script.js"></script>
 </body>
