@@ -1,1 +1,8 @@
+pre {
+  background: #1e293b;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  max-height: 200px;
+}
 
